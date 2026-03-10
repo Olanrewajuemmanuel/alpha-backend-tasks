@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ report.title | e }}</title>
+    <style>
+      /* Reset */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Georgia", "Times New Roman", serif;
+        font-size: 15px;
+        line-height: 1.65;
+        color: #1a1a2e;
+        background: #f4f4f0;
+      }
+
+      /* Page shell */
+      .page-wrapper {
+        max-width: 900px;
+        margin: 32px auto 64px;
+        background: #fff;
+        border: 1px solid #d4d0c8;
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+      }
+
+      /* Header */
+      .report-header {
+        background: #0f2240;
+        color: #fff;
+        padding: 36px 48px 28px;
+        border-bottom: 4px solid #c8a84b;
+      }
+
+      .report-header__label {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #c8a84b;
+        margin-bottom: 8px;
+      }
+
+      .report-header__title {
+        font-size: 26px;
+        font-weight: normal;
+        letter-spacing: -0.01em;
+        line-height: 1.25;
+        margin-bottom: 16px;
+      }
+
+      .report-header__meta {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 13px;
+        color: #a8b8cc;
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+
+      .report-header__meta span + span::before {
+        content: "• ";
+        opacity: 0.5;
+      }
+
+      /* Company block */
+      .company-block {
+        background: #f8f7f3;
+        border-bottom: 1px solid #e0ddd5;
+        padding: 20px 48px;
+        display: flex;
+        gap: 32px;
+        align-items: center;
+        flex-wrap: wrap;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+      }
+
+      .company-block__name {
+        font-size: 17px;
+        font-weight: 600;
+        color: #0f2240;
+      }
+
+      .company-block__pill {
+        font-size: 12px;
+        padding: 3px 10px;
+        border-radius: 3px;
+        background: #e8e4d8;
+        color: #555;
+        border: 1px solid #d4d0c8;
+      }
+
+      /* Body */
+      .report-body {
+        padding: 0 48px;
+      }
+
+      /* Sections */
+      .report-section {
+        padding: 28px 0;
+        border-bottom: 1px solid #e8e4d8;
+      }
+
+      .report-section:last-of-type {
+        border-bottom: none;
+      }
+
+      .section-title {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #0f2240;
+        margin-bottom: 14px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #c8a84b;
+        display: inline-block;
+      }
+
+      /* Summary */
+      .summary-text {
+        font-size: 15px;
+        color: #2a2a3e;
+        line-height: 1.75;
+      }
+
+      /* Points list */
+      .points-list {
+        list-style: none;
+      }
+
+      .points-list__item {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        padding: 11px 0;
+        border-bottom: 1px solid #f0ede6;
+        font-size: 14px;
+      }
+
+      .points-list__item:last-child {
+        border-bottom: none;
+      }
+
+      .points-list__bullet {
+        flex-shrink: 0;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #c8a84b;
+        margin-top: 7px;
+      }
+
+      .points-list__item--risk .points-list__bullet {
+        background: #b91c1c;
+      }
+
+      .points-list__content {
+        flex: 1;
+        color: #2a2a3e;
+        line-height: 1.6;
+      }
+
+      /* Recommendation */
+      .recommendation-box {
+        background: #f0f4f8;
+        border-left: 4px solid #0f2240;
+        padding: 16px 20px;
+        font-size: 15px;
+        color: #0f2240;
+        font-style: italic;
+        border-radius: 0 4px 4px 0;
+      }
+
+      /* Metrics */
+      .metrics-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 13px;
+      }
+
+      .metrics-table th {
+        text-align: left;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #888;
+        padding: 6px 0;
+        border-bottom: 1px solid #e0ddd5;
+      }
+
+      .metrics-table td {
+        padding: 9px 0;
+        border-bottom: 1px solid #f0ede6;
+        color: #2a2a3e;
+      }
+
+      .metrics-table tr:last-child td {
+        border-bottom: none;
+      }
+      .metrics-table td:last-child {
+        text-align: right;
+        font-weight: 600;
+        color: #0f2240;
+      }
+
+      /* Footer */
+      .report-footer {
+        background: #f8f7f3;
+        border-top: 1px solid #d4d0c8;
+        padding: 18px 48px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        font-size: 12px;
+        color: #888;
+      }
+
+      .report-footer strong {
+        color: #555;
+      }
+
+      @media print {
+        body {
+          background: white;
+        }
+        .page-wrapper {
+          box-shadow: none;
+          border: none;
+          margin: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrapper">
+      {# Header #}
+      <header class="report-header" role="banner">
+        <p class="report-header__label">Analyst Report · Internal Use Only</p>
+        <h1 class="report-header__title">{{ report.title | e }}</h1>
+        <div class="report-header__meta" aria-label="Report metadata">
+          <span>{{ report.generated_at | e }}</span>
+          <span>{{ report.analyst_name | e }}</span>
+        </div>
+      </header>
+
+      {# Company block #}
+      <div class="company-block" role="region" aria-label="Company information">
+        <span class="company-block__name"
+          >{{ report.company.display_header | e }}</span
+        >
+        {% if report.company.sector %}
+        <span class="company-block__pill">{{ report.company.sector | e }}</span>
+        {% endif %}
+      </div>
+
+      <main class="report-body">
+        <section
+          class="report-section"
+          id="summary"
+          aria-labelledby="summary-heading"
+        >
+          <h2 class="section-title" id="summary-heading">Summary</h2>
+          <p class="summary-text">{{ report.summary | e }}</p>
+        </section>
+
+        {% if report.has_key_points %}
+        <section
+          class="report-section"
+          id="key-points"
+          aria-labelledby="keypoints-heading"
+        >
+          <h2 class="section-title" id="keypoints-heading">Key Points</h2>
+          <ul class="points-list" role="list">
+            {% for point in report.key_points %}
+            <li class="points-list__item">
+              <span class="points-list__bullet" aria-hidden="true"></span>
+              <span class="points-list__content">{{ point.content | e }}</span>
+            </li>
+            {% endfor %}
+          </ul>
+        </section>
+        {% endif %} {% if report.has_risks %}
+        <section
+          class="report-section"
+          id="risks"
+          aria-labelledby="risks-heading"
+        >
+          <h2 class="section-title" id="risks-heading">Risks</h2>
+          <ul class="points-list" role="list">
+            {% for risk in report.risks %}
+            <li class="points-list__item points-list__item--risk">
+              <span class="points-list__bullet" aria-hidden="true"></span>
+              <span class="points-list__content">{{ risk.content | e }}</span>
+            </li>
+            {% endfor %}
+          </ul>
+        </section>
+        {% endif %}
+        <section
+          class="report-section"
+          id="recommendation"
+          aria-labelledby="rec-heading"
+        >
+          <h2 class="section-title" id="rec-heading">Recommendation</h2>
+          <blockquote class="recommendation-box">
+            {{ report.recommendation | e }}
+          </blockquote>
+        </section>
+
+        {% if report.has_metrics %}
+        <section
+          class="report-section"
+          id="metrics"
+          aria-labelledby="metrics-heading"
+        >
+          <h2 class="section-title" id="metrics-heading">Metrics</h2>
+          <table class="metrics-table" aria-label="Briefing metrics">
+            <thead>
+              <tr>
+                <th scope="col">Metric</th>
+                <th scope="col" style="text-align: right">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for metric in report.metrics %}
+              <tr>
+                <td>{{ metric.label | e }}</td>
+                <td>{{ metric.value | e }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </section>
+        {% endif %}
+      </main>
+
+      {# Footer #}
+      <footer class="report-footer" role="contentinfo">
+        <span>Generated: <strong>{{ report.generated_at | e }}</strong></span>
+        <span>Analyst: <strong>{{ report.analyst_name | e }}</strong></span>
+        <span>Internal use only · Not for distribution</span>
+      </footer>
+    </div>
+  </body>
+</html>
