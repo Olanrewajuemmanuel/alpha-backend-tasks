@@ -1,6 +1,7 @@
 import { randomUUID } from 'crypto';
 
 import { Injectable } from '@nestjs/common';
+import { IQueue } from './contract/queue.contract';
 
 export interface EnqueuedJob<TPayload = unknown> {
   id: string;
@@ -10,7 +11,7 @@ export interface EnqueuedJob<TPayload = unknown> {
 }
 
 @Injectable()
-export class QueueService {
+export class QueueService implements IQueue {
   private readonly jobs: EnqueuedJob[] = [];
 
   enqueue<TPayload>(name: string, payload: TPayload): EnqueuedJob<TPayload> {

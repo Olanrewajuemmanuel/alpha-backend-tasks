@@ -1,25 +1,30 @@
-import { Controller, Get, Post, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
 import { CandidateSummariesService } from './candidate-summaries.service';
-import { CreateCandidateSummaryDto } from './dto/create-candidate-summary.dto';
+import { FakeAuthGuard } from '../../auth/fake-auth.guard';
+import { WorkspaceGuard } from '../../auth/workspace.guard';
+import { SelectedCandidate } from '../../auth/selected-candidate.decorator';
+import { SampleCandidate } from '../../entities/sample-candidate.entity';
 
 
-@Controller('candidates')
+@UseGuards(FakeAuthGuard, WorkspaceGuard)
+@Controller('candidates/:candidateId/summaries')
 export class CandidateSummariesController {
   constructor(private readonly candidateSummariesService: CandidateSummariesService) {}
 
-  @Get("/:candidateId/summaries")
-  findAll() {
-    return this.candidateSummariesService.findAll();
+  @Get()
+  findAll(@SelectedCandidate() candidate: SampleCandidate) {
+    return this.candidateSummariesService.findAll(candidate.id);
   }
 
-  @Get("/:candidateId/summaries/:summaryId")
-  findOne(@Param('summaryId') summaryId: string) {
-    return this.candidateSummariesService.findOne(+summaryId);
+  @Get(":summaryId")
+  findOne(@SelectedCandidate() candidate: SampleCandidate, @Param('summaryId') summaryId: string) {
+    return this.candidateSummariesService.findOne(candidate.id, summaryId);
   }
 
-  @Post("/:candidateId/summaries/generate")
-  create(@Body() createCandidateSummaryDto: CreateCandidateSummaryDto) {
-    return this.candidateSummariesService.create(createCandidateSummaryDto);
+  @Post("generate")
+  @HttpCode(HttpStatus.ACCEPTED)
+  create(@SelectedCandidate() candidate: SampleCandidate) {
+    return this.candidateSummariesService.create(candidate);
   } 
 
 }

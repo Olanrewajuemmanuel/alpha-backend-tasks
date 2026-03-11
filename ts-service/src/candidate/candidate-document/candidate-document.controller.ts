@@ -8,14 +8,14 @@ import { SampleCandidate } from "src/entities/sample-candidate.entity";
 import { FileInterceptor } from "@nestjs/platform-express";
 
 @UseGuards(FakeAuthGuard, WorkspaceGuard)
-@Controller("candidates")
+@Controller("candidates/:candidateId/documents")
 export class CandidateDocumentController {
   constructor(
     private readonly candidateDocumentService: CandidateDocumentService,
   ) {}
 
   @UseInterceptors(FileInterceptor('file'))
-  @Post("/:candidateId/documents")
+  @Post()
   create(
     @Body() createCandidateDocumentDto: CreateCandidateDocumentDto,
     @SelectedCandidate() candidate: SampleCandidate,
