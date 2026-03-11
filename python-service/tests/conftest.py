@@ -9,14 +9,14 @@ from sqlmodel import SQLModel
 from app.db.session import get_db
 from app.main import app
 
-TEST_DATABASE_NAME = "test_assessment_db"
 
+TEST_DATABASE_NAME = "test_assessment_db"
 
 @pytest.fixture()
 def client() -> Generator[TestClient, None, None]:
     engine = create_engine(
         # Create and spin up test database with postgres for similar prod results
-        # All tables should be deleted after test
+        # All tables should be automatically dropped after test
         f"postgresql+psycopg://assessment_user:assessment_pass@localhost:5432/{TEST_DATABASE_NAME}",
         poolclass=StaticPool,
     )

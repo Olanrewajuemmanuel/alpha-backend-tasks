@@ -39,7 +39,6 @@ export default class CandidateSeed implements Seeder {
     const missingCandidates = sampleCandidates.filter(
       (candidate) => !allCandidates.find((sc) => sc.email === candidate.email),
     );
-    console.log(`Creating ${missingCandidates.length} sample candidates`);
 
     if (missingCandidates.length > 0) {
       await repository.save(missingCandidates);

@@ -1,24 +1,3 @@
-"""
-app/schemas/briefing.py
-
-Pydantic schemas for the /briefings router.
-
-Names match exactly what the route imports:
-  - BriefingCreate   → POST /briefings request body
-  - BriefingRead     → GET /briefings/{id} and POST /briefings response
-  - BriefingGenerate → POST /briefings/{id}/generate response
-
-Validation rules (per spec), all enforced here at the boundary:
-  - companyName  required, non-empty
-  - ticker       required, normalised to uppercase, stripped
-  - summary      required, non-empty
-  - recommendation required, non-empty
-  - keyPoints    at least 2 items, no blank strings
-  - risks        at least 1 item, no blank strings
-  - metrics      optional; names must be unique within the same briefing
-                 (case-insensitive comparison)
-"""
-
 import uuid
 from datetime import datetime
 from typing import Optional

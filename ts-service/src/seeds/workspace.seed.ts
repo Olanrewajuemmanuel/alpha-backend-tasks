@@ -23,7 +23,6 @@ export class WorkspaceSeed implements Seeder {
 
         const allWorkspaces = await repository.find();
         const missingWorkspaces = defaultWorkspaces.filter(workspace => !allWorkspaces.some(w => w.id === workspace.id));
-        console.log(`Missing workspaces: ${missingWorkspaces.length}`);
         
         if (missingWorkspaces.length > 0) {
             await repository.save(missingWorkspaces);

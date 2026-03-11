@@ -62,8 +62,6 @@ class Briefing(SQLModel, table=True):
         sa_relationship_kwargs={"cascade": "all, delete-orphan"},
     )
 
-    # --- Computed properties ---
-
     @property
     def is_generated(self) -> bool:
         """True when rendered_html has been produced by the generation step."""
@@ -71,7 +69,7 @@ class Briefing(SQLModel, table=True):
 
     @property
     def key_points(self) -> list["BriefingPoint"]:
-        """Convenience filter — returns KEY_POINT rows sorted by display_order."""
+        """Returns KEY_POINT rows sorted by display_order."""
         return sorted(
             [p for p in self.points if p.point_type == "KEY_POINT"],
             key=lambda p: p.display_order,
@@ -79,7 +77,7 @@ class Briefing(SQLModel, table=True):
 
     @property
     def risks(self) -> list["BriefingPoint"]:
-        """Convenience filter — returns RISK rows sorted by display_order."""
+        """Returns RISK rows sorted by display_order."""
         return sorted(
             [p for p in self.points if p.point_type == "RISK"],
             key=lambda p: p.display_order,

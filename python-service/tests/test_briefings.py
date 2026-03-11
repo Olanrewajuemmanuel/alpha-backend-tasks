@@ -70,7 +70,6 @@ class TestBriefingCreate:
         assert response.status_code == 422
 
     def test_only_one_key_point_returns_422(self, client: TestClient):
-        """Spec requires at least 2 key points."""
         response = client.post(
             "/briefings/",
             json=_correct_payload(keyPoints=["Only one point."]),
@@ -125,13 +124,11 @@ class TestBriefingGet:
         assert response.status_code == 200
 
     def test_is_generated_flag_is_false_for_new_briefing(self, client: TestClient):
-        """is_generated should be False for a newly created briefing."""
         created = _create_briefing(client)
         fetched = client.get(f"/briefings/{created['id']}").json()
         assert fetched.get("is_generated") is False
 
     def test_get_does_not_expose_rendered_html(self, client: TestClient):
-        """rendered_html must never appear in the JSON response."""
         created = _create_briefing(client)
         fetched = client.get(f"/briefings/{created['id']}").json()
         assert "rendered_html" not in fetched
@@ -157,7 +154,6 @@ class TestBriefingGenerate:
 
     @pytest.mark.skip(reason="Background tasks are suspended in test suite")
     def test_generate_marks_briefing_as_generated(self, client: TestClient):
-        """After generation, GET /briefings/{id} must return is_generated=True."""
         created = _create_briefing(client)
         client.post(f"/briefings/{created['id']}/generate")  # TODO: background task!
         fetched = client.get(f"/briefings/{created['id']}").json()
