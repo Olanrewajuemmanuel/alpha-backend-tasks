@@ -17,6 +17,7 @@ import { CreateCandidateSummaryDto } from "./dto/create-candidate-summary.dto";
 import { CANDIDATE_SUMMARIES_QUEUE } from "./constants/injection-tokens";
 import { RetrieveCandidateSummaryResponseDto } from "./dto/retrieve-candidate-summary.dto";
 import { IQueue } from "../../queue/contract/queue.contract";
+import { CANDIDATE_SUMMARIES_GENERATION_JOB_NAME } from "../../queue/workers/summary.worker";
 
 @Injectable()
 export class CandidateSummariesService {
@@ -44,8 +45,9 @@ export class CandidateSummariesService {
       };
       const summary = await this.candidateSummaryRepository.save(newSummary);
 
-      this.queueService.enqueue(CANDIDATE_SUMMARIES_QUEUE.toString(), {
+      this.queueService.enqueue(CANDIDATE_SUMMARIES_GENERATION_JOB_NAME, {
         summaryId: summary.id,
+        candidateId: candidate.id,
       });
       return CreateCandidateSummaryDto.fromEntity(summary);
     } catch (error) {

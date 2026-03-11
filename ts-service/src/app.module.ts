@@ -9,6 +9,7 @@ import { LlmModule } from './llm/llm.module';
 import { QueueModule } from './queue/queue.module';
 import { SampleModule } from './sample/sample.module';
 import { CandidateModule } from './candidate/candidate.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CandidateModule } from './candidate/candidate.module';
       useFactory: (configService: ConfigService) =>
         getTypeOrmOptions(configService.get<string>('DATABASE_URL') ?? defaultDatabaseUrl),
     }),
+    ScheduleModule.forRoot(),
     AuthModule,
     HealthModule,
     QueueModule,

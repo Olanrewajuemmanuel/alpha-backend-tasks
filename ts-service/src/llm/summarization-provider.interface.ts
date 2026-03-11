@@ -20,3 +20,4 @@ export interface SummarizationProvider {
 }
 
 export const SUMMARIZATION_PROVIDER = Symbol('SUMMARIZATION_PROVIDER');
+export const CLAUDE_SUMMARIZATION_PROVIDER = Symbol('CLAUDE_SUMMARIZATION_PROVIDER');

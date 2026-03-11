@@ -1,4 +1,4 @@
-import { CandidateSummary, RecommendedDecisionEnum, SummaryStatusEnum } from 'src/entities/candidate-summaries.entity';
+import { CandidateSummary, RecommendedDecisionEnum, SummaryStatusEnum } from '../entities/candidate-summaries.entity';
 import { DataSource } from 'typeorm';
 import { Seeder } from 'typeorm-extension';
 

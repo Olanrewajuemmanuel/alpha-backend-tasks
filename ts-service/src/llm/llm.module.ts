@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 
 import { FakeSummarizationProvider } from './fake-summarization.provider';
-import { SUMMARIZATION_PROVIDER } from './summarization-provider.interface';
+import { CLAUDE_SUMMARIZATION_PROVIDER, SUMMARIZATION_PROVIDER } from './summarization-provider.interface';
+import { ClaudeSummarizationProvider } from './claude-summarization.provider';
 
 @Module({
   providers: [
@@ -10,6 +11,10 @@ import { SUMMARIZATION_PROVIDER } from './summarization-provider.interface';
       provide: SUMMARIZATION_PROVIDER,
       useExisting: FakeSummarizationProvider,
     },
+    {
+      provide: CLAUDE_SUMMARIZATION_PROVIDER,
+      useClass: ClaudeSummarizationProvider,
+    }
   ],
   exports: [SUMMARIZATION_PROVIDER, FakeSummarizationProvider],
 })

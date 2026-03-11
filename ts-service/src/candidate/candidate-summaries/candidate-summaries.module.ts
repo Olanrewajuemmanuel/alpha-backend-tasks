@@ -8,18 +8,20 @@ import { CANDIDATE_SUMMARIES_QUEUE } from "./constants/injection-tokens";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { CandidateSummary } from "../../entities/candidate-summaries.entity";
 import { CandidateDocument } from "../../entities/candidate-document.entity";
+import { QueueModule } from "../../queue/queue.module";
 
 @Module({
   imports: [
     AuthModule,
     SampleModule,
+    QueueModule,
     TypeOrmModule.forFeature([CandidateSummary, CandidateDocument]),
   ],
   controllers: [CandidateSummariesController],
   providers: [
     CandidateSummariesService,
     {
-      useClass: QueueService,
+      useExisting: QueueService,
       provide: CANDIDATE_SUMMARIES_QUEUE,
     },
   ],

@@ -12,7 +12,7 @@ export interface EnqueuedJob<TPayload = unknown> {
 
 @Injectable()
 export class QueueService implements IQueue {
-  private readonly jobs: EnqueuedJob[] = [];
+  private jobs: EnqueuedJob[] = [];
 
   enqueue<TPayload>(name: string, payload: TPayload): EnqueuedJob<TPayload> {
     const job: EnqueuedJob<TPayload> = {
@@ -21,9 +21,17 @@ export class QueueService implements IQueue {
       payload,
       enqueuedAt: new Date().toISOString(),
     };
-
     this.jobs.push(job);
     return job;
+  }
+
+  dequeue(index: string): boolean {
+    const jobIndex = this.jobs.findIndex((job) => job.id === index);
+    if (jobIndex === -1) {
+      return false;
+    }
+    this.jobs.splice(jobIndex, 1);
+    return true;
   }
 
   getQueuedJobs(): readonly EnqueuedJob[] {

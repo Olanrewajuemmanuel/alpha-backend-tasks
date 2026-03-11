@@ -1,10 +1,10 @@
 import { Controller, Post, Body, UseGuards, UseInterceptors, UploadedFile, BadRequestException } from "@nestjs/common";
 import { CandidateDocumentService } from "./candidate-document.service";
 import { CreateCandidateDocumentDto } from "./dto/create-candidate-document.dto";
-import { FakeAuthGuard } from "src/auth/fake-auth.guard";
-import { WorkspaceGuard } from "src/auth/workspace.guard";
-import { SelectedCandidate } from "src/auth/selected-candidate.decorator";
-import { SampleCandidate } from "src/entities/sample-candidate.entity";
+import { FakeAuthGuard } from "../../auth/fake-auth.guard";
+import { WorkspaceGuard } from "../../auth/workspace.guard";
+import { SelectedCandidate } from "../../auth/selected-candidate.decorator";
+import { SampleCandidate } from "../../entities/sample-candidate.entity";
 import { FileInterceptor } from "@nestjs/platform-express";
 
 @UseGuards(FakeAuthGuard, WorkspaceGuard)
