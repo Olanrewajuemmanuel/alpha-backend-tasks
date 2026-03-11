@@ -38,6 +38,14 @@ export class SampleService {
     });
   }
 
+  async getCandidateById(candidateId: string): Promise<SampleCandidate | null> {
+    return this.candidateRepository.findOne({ where: { id: candidateId } });
+  }
+
+  async getCandidateByIdAndWorkspaceId(candidateId: string, workspaceId: string): Promise<SampleCandidate | null> {
+    return this.candidateRepository.findOne({ where: { id: candidateId, workspaceId } });
+  }
+
   private async ensureWorkspace(workspaceId: string): Promise<void> {
     const existing = await this.workspaceRepository.findOne({ where: { id: workspaceId } });
 

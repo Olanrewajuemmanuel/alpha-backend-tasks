@@ -11,10 +11,10 @@ export const getTypeOrmOptions = (
 ): TypeOrmModuleOptions & DataSourceOptions & SeederOptions => ({
   type: 'postgres',
   url: databaseUrl,
-  entities: ['src/entities/**/*{.ts,.js}'],
-  migrations: ['src/migrations/**/*{.ts,.js}'],
+  entities: [__dirname + '/src/entities/**/*{.ts,.js}'],
+  migrations: [__dirname + '/src/migrations/**/*{.ts,.js}'],
   migrationsTableName: 'typeorm_migrations',
   synchronize: false,
   logging: false,
-  seeds: ['src/seeds/**/*{.ts,.js}'],
+  seeds: [__dirname + '/src/seeds/**/*{.ts,.js}'],
 });
