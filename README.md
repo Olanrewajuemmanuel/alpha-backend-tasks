@@ -1,12 +1,11 @@
-# Backend Engineering Assessment Starter
+# Backend Engineering Assessment
 
-This repository is a standalone starter for the backend engineering take-home assessment.
-It contains two independent services in a shared mono-repo:
+This repository contains two standalone services for the backend engineering take-home assessment.
 
 - `python-service/` (InsightOps): FastAPI + SQLAlchemy + manual SQL migrations
 - `ts-service/` (TalentFlow): NestJS + TypeORM
 
-The repository is intentionally incomplete for assessment features. Candidates should build within the existing structure and patterns.
+The repository is completed according to the assessment requirements.
 
 ## Prerequisites
 
@@ -33,8 +32,3 @@ This starts PostgreSQL on `localhost:5432` with:
 
 - Python service setup and commands: [python-service/README.md](python-service/README.md)
 - TypeScript service setup and commands: [ts-service/README.md](ts-service/README.md)
-
-## Notes
-
-- Keep your solution focused on the assessment tasks.
-- Do not replace the project structure with a different architecture.

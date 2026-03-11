@@ -14,19 +14,6 @@ import { SUMMARIZATION_PROVIDER } from "../../llm/summarization-provider.interfa
 export const CANDIDATE_SUMMARIES_GENERATION_JOB_NAME = 'candidate-summaries-generation';
 export const SUMMARY_WORKER_INTERVAL = 5000;
 
-// Keep as runtime JS dataclass
-class SummaryJob {
-  id: string;
-  summaryId!: string;
-  candidateId!: string;
-
-  constructor(id: string, summaryId: string, candidateId: string) {
-    this.id = id;
-    this.summaryId = summaryId;
-    this.candidateId = candidateId;
-  }
-}
-
 /**
  * Consumes summary generation jobs from the queue
  */
@@ -114,5 +101,18 @@ export class SummaryWorker implements IWorker {
       this.logger.error(`Failed to process summary job ${job.id}:`, error);
       throw error; // propagate err call up
     }
+  }
+}
+
+// Keep as runtime JS dataclass
+class SummaryJob {
+  id: string;
+  summaryId!: string;
+  candidateId!: string;
+
+  constructor(id: string, summaryId: string, candidateId: string) {
+    this.id = id;
+    this.summaryId = summaryId;
+    this.candidateId = candidateId;
   }
 }

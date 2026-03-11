@@ -1,0 +1,75 @@
+John Doe
+Email: johndoe@email.com
+Phone: +1 555-123-4567
+LinkedIn: linkedin.com/in/johndoe
+GitHub: github.com/johndoe
+Location: New York, NY
+
+--------------------------------------------------
+PROFESSIONAL SUMMARY
+--------------------------------------------------
+Backend Engineer with 5+ years of experience designing scalable APIs,
+building microservices, and optimizing data pipelines. Proficient in
+Python, Node.js, and cloud infrastructure. Passionate about building
+reliable systems and leveraging AI-driven technologies to improve
+productivity and automation.
+
+--------------------------------------------------
+SKILLS
+--------------------------------------------------
+Programming: Python, TypeScript, JavaScript, SQL
+Frameworks: FastAPI, NestJS, Express, Django
+Databases: PostgreSQL, MongoDB, Redis
+Cloud & DevOps: AWS, Docker, Kubernetes, CI/CD
+Tools: Git, Linux, Terraform
+Concepts: Microservices, Distributed Systems, REST APIs
+
+--------------------------------------------------
+WORK EXPERIENCE
+--------------------------------------------------
+
+Senior Backend Engineer
+TechCorp Inc. | Jan 2022 – Present
+- Designed and implemented scalable REST APIs serving 1M+ users.
+- Built microservices using FastAPI and PostgreSQL.
+- Reduced API response time by 40% through query optimization.
+- Deployed containerized services using Docker and Kubernetes.
+
+Backend Engineer
+Startup Labs | Jun 2019 – Dec 2021
+- Developed backend services with Node.js and NestJS.
+- Integrated payment APIs and authentication systems.
+- Implemented caching with Redis to improve performance.
+- Worked closely with frontend and product teams to deliver features.
+
+--------------------------------------------------
+PROJECTS
+--------------------------------------------------
+
+AI Market Simulator
+- Built a simulation platform for equity markets using Python and
+machine learning models.
+- Implemented data pipelines and scenario-based testing tools.
+
+Travel Log App
+- Full-stack web application for logging travel experiences.
+- Built using React, Express, and MongoDB.
+
+--------------------------------------------------
+EDUCATION
+--------------------------------------------------
+Bachelor of Science in Computer Science
+University of Example
+2015 – 2019
+
+--------------------------------------------------
+CERTIFICATIONS
+--------------------------------------------------
+AWS Certified Developer – Associate
+Docker Certified Associate
+
+--------------------------------------------------
+ADDITIONAL INFORMATION
+--------------------------------------------------
+Languages: English (Fluent), Spanish (Intermediate)
+Interests: Open source, AI research, system design
