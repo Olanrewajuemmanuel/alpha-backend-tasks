@@ -6,10 +6,17 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 
-import { SampleCandidate } from './sample-candidate.entity';
+import { ISampleCandidateSchema, SampleCandidate } from './sample-candidate.entity';
+
+export interface ISampleWorkspaceSchema {
+    id: string;
+    name: string;
+    createdAt: Date;
+    candidates: ISampleCandidateSchema[];
+}
 
 @Entity({ name: 'sample_workspaces' })
-export class SampleWorkspace {
+export class SampleWorkspace implements ISampleWorkspaceSchema {
   @PrimaryColumn({ type: 'varchar', length: 64 })
   id!: string;
 

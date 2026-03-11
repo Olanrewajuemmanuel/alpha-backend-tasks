@@ -1,21 +1,20 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { DataSourceOptions } from 'typeorm';
 
-import { SampleCandidate } from '../entities/sample-candidate.entity';
-import { SampleWorkspace } from '../entities/sample-workspace.entity';
-import { InitialStarterEntities1710000000000 } from '../migrations/1710000000000-InitialStarterEntities';
+import { SeederOptions } from 'typeorm-extension';
 
 export const defaultDatabaseUrl =
   'postgres://assessment_user:assessment_pass@localhost:5432/assessment_db';
 
 export const getTypeOrmOptions = (
   databaseUrl: string,
-): TypeOrmModuleOptions & DataSourceOptions => ({
+): TypeOrmModuleOptions & DataSourceOptions & SeederOptions => ({
   type: 'postgres',
   url: databaseUrl,
-  entities: [SampleWorkspace, SampleCandidate],
-  migrations: [InitialStarterEntities1710000000000],
+  entities: ['src/entities/**/*{.ts,.js}'],
+  migrations: ['src/migrations/**/*{.ts,.js}'],
   migrationsTableName: 'typeorm_migrations',
   synchronize: false,
   logging: false,
+  seeds: ['src/seeds/**/*{.ts,.js}'],
 });
