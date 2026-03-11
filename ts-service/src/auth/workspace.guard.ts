@@ -1,9 +1,10 @@
-import { CanActivate, ExecutionContext, UnauthorizedException } from "@nestjs/common";
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 import { SampleService } from "src/sample/sample.service";
 
 /**
  * Guard to check if the authenticated user share workspace access with the current candidate
  */
+@Injectable()
 export class WorkspaceGuard implements CanActivate {
 
     constructor(private readonly candidateService: SampleService) {}
@@ -14,7 +15,7 @@ export class WorkspaceGuard implements CanActivate {
     if (!workspaceId) {
       throw new UnauthorizedException('Missing x-workspace-id header');
     }
-    const candidateId = request.params.id;
+    const candidateId = request.params.candidateId;
     if (!candidateId) {
       return true; // route has nothing to do with candidates
     }

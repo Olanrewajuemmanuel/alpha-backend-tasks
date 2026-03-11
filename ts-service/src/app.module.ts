@@ -8,7 +8,7 @@ import { HealthModule } from './health/health.module';
 import { LlmModule } from './llm/llm.module';
 import { QueueModule } from './queue/queue.module';
 import { SampleModule } from './sample/sample.module';
-import { CandidateDocumentModule } from './candidate-document/candidate-document.module';
+import { CandidateModule } from './candidate/candidate.module';
 
 @Module({
   imports: [
@@ -23,7 +23,7 @@ import { CandidateDocumentModule } from './candidate-document/candidate-document
     QueueModule,
     LlmModule,
     SampleModule,
-    CandidateDocumentModule,
+    CandidateModule,
   ],
 })
 export class AppModule {}
