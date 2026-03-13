@@ -6,6 +6,8 @@ export interface CandidateSummaryResult {
   concerns: string[];
   summary: string;
   recommendedDecision: RecommendedDecision;
+  provider?: string;
+  promptVersion?: string;
 }
 
 export interface CandidateSummaryInput {

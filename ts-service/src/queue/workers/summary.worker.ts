@@ -79,6 +79,8 @@ export class SummaryWorker implements IWorker {
         concerns,
         summary,
         recommendedDecision,
+        provider,
+        promptVersion,
       }: CandidateSummaryResult = await this.summarizationProvider.generateCandidateSummary({
         candidateId: job.candidateId,
         documents: candidateDocuments.map((doc) => doc.rawText),
@@ -91,6 +93,8 @@ export class SummaryWorker implements IWorker {
         concerns,
         summary,
         recommendedDecision: recommendedDecision as unknown as RecommendedDecisionEnum,
+        provider,
+        promptVersion,
       });
     } catch (error: unknown) {
       const err = error as Error;

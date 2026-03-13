@@ -5,34 +5,27 @@ import {
   SummarizationProvider,
 } from "./summarization-provider.interface";
 import { validate } from "class-validator";
-import Anthropic from "@anthropic-ai/sdk";
 import { SummarizationOutputDTO } from "./dto/create-summarization.dto";
+import { InferenceClient } from "@huggingface/inference";
 
-const MODEL = "claude-sonnet-4-20250514";
+const MODEL = "deepseek-ai/DeepSeek-V3-0324"; // Prefer smaller models that are free
 
 @Injectable()
-export class ClaudeSummarizationProvider implements SummarizationProvider {
-  private readonly logger = new Logger(ClaudeSummarizationProvider.name);
-  private readonly client!: Anthropic;
+export class HuggingFaceSummarizationProvider implements SummarizationProvider {
+  private readonly logger = new Logger(HuggingFaceSummarizationProvider.name);
+  private readonly client!: InferenceClient;
 
   constructor() {
-    const apiKey = process.env.ANTHROPIC_API_KEY;
+    const apiKey = process.env.HUGGINGFACE_API_KEY;
     if (!apiKey) {
-      throw new Error("ANTHROPIC_API_KEY is not set");
+      throw new Error("HUGGINGFACE_API_KEY is not set");
     }
-    this.client = new Anthropic({
-      apiKey,
-    });
+    this.client = new InferenceClient(apiKey);
   }
 
   async generateCandidateSummary(
     input: CandidateSummaryInput,
   ): Promise<CandidateSummaryResult> {
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      throw new Error("GEMINI_API_KEY is not set");
-    }
-
     const documentBlock = input.documents.map((text) => `--- ${text}`);
     const prompt = `
 You are an expert technical recruiter. Analyze the following candidate documents and return a structured JSON evaluation.
@@ -50,43 +43,55 @@ Return ONLY a valid JSON object with exactly this shape, no explanation, no mark
 }
     `.trim();
 
-    const response = await this.client.messages.create({
+    const response = await this.client.chatCompletion({
       model: MODEL,
-      max_tokens: 1024,
       messages: [
         {
           role: "user",
           content: prompt,
         },
       ],
+      max_tokens: 1024,
     });
 
-    const rawText = response.content
-      .filter((block) => block.type === "text")
-      .map((block) => block.text)
-      .join("");
+    const rawText = response.choices
+      .map((choice) => choice.message?.content ?? "")
+      .join("")
+      .trim();
 
     if (!rawText) {
-      throw new Error("Claude returned an empty response");
+      throw new Error("HuggingFace returned an empty response");
     }
 
-    this.logger.debug(`Claude raw response: ${rawText}`);
+    this.logger.debug(`HuggingFace raw response: ${rawText}`);
+
+    // Strip markdown code fences if model wraps output in them
+    // Huggingface models sometimes wrap JSON in ```json ... ``` even when explicitly told not to
+    const cleaned = rawText
+      .replace(/^```json\s*/i, "")
+      .replace(/^```\s*/i, "")
+      .replace(/```$/, "")
+      .trim();
 
     let parsed: unknown;
     try {
-      parsed = JSON.parse(rawText);
+      parsed = JSON.parse(cleaned);
     } catch {
-      throw new Error(`Claude response was not valid JSON: ${rawText}`);
+      throw new Error("HuggingFace response was not valid JSON");
     }
 
     const validated = new SummarizationOutputDTO(parsed as any);
     const errors = await validate(validated);
     if (errors.length > 0) {
       throw new Error(
-        `Claude response failed schema validation: ${errors.map((e) => e.toString()).join(", ")}`,
+        `HuggingFace response failed schema validation: ${errors.map((e) => e.toString()).join(", ")}`,
       );
     }
 
-    return validated;
+    return {
+      ...validated,
+      provider: `huggingface - ${MODEL}`,
+      promptVersion: "v1",
+    };
   }
 }

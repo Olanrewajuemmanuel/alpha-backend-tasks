@@ -6,7 +6,7 @@ import { CANDIDATE_SUMMARIES_QUEUE } from "../candidate/candidate-summaries/cons
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { CandidateDocument } from "../entities/candidate-document.entity";
 import { CandidateSummary } from "../entities/candidate-summaries.entity";
-import { ClaudeSummarizationProvider } from "../llm/claude-summarization.provider";
+import { HuggingFaceSummarizationProvider } from "../llm/huggingface-summarization.provider";
 import { SUMMARIZATION_PROVIDER } from "../llm/summarization-provider.interface";
 
 @Module({
@@ -20,7 +20,7 @@ import { SUMMARIZATION_PROVIDER } from "../llm/summarization-provider.interface"
     },
     {
       provide: SUMMARIZATION_PROVIDER,
-      useClass: ClaudeSummarizationProvider,
+      useClass: HuggingFaceSummarizationProvider,
     },
   ],
   exports: [QueueService],

@@ -39,11 +39,13 @@ cp .env.example .env
 - `PORT`
 - `DATABASE_URL`
 - `NODE_ENV`
-- `ANTHROPIC_API_KEY` (Used to connect to Claude's implementation of the summarization provider)
+- `ANTHROPIC_API_KEY` (Used to connect to Claude's implementation of the summarization provider) or `HUGGINGFACE_API_KEY` (Used to connect to HuggingFace's implementation of the summarization provider)
 
 Do not commit API keys or secrets.
 
-Get your Anthropic API key from [Anthropic Console](https://console.anthropic.com/).
+Get your Anthropic API key from [Anthropic Console](https://console.anthropic.com/) or your HuggingFace API key from [HuggingFace Console](https://huggingface.co/settings/tokens).
+
+Get your HuggingFace API key from [HuggingFace Console](https://huggingface.co/settings/tokens).
 
 ## Setup
 
