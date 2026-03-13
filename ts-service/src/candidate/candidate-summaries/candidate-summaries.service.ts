@@ -59,6 +59,7 @@ export class CandidateSummariesService {
   async findAll(candidateId: string) {
     const summaries = await this.candidateSummaryRepository.find({
       where: { candidateId },
+      order: { createdAt: "DESC" },
     });
     return summaries.map(RetrieveCandidateSummaryResponseDto.fromEntity);
   }
