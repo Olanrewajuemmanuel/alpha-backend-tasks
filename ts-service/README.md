@@ -64,6 +64,22 @@ Include these headers in requests:
 - `x-user-id`: any non-empty string (example: `user-1`)
 - `x-workspace-id`: workspace identifier used for scoping (example: `workspace-1`)
 
+Note: TypeORM migrations are used for database schema management. Migration files are located in `src/migrations/`.
+
+### Create blank migration
+
+```bash
+cd ts-service
+npm run migration:create -- -n <migration-name>
+```
+
+### Generate Migration
+
+```bash
+cd ts-service
+npm run migration:generate -- -n <migration-name>
+```
+
 ## How to Run Migrations
 
 ```bash
@@ -71,7 +87,21 @@ cd ts-service
 npm run migration:run
 ```
 
-Note: TypeORM migrations are used for database schema management. Migration files are located in `src/migrations/`.
+### Revert migration
+
+```bash
+cd ts-service
+npm run migration:revert
+```
+
+## Seed [Optional]
+Seed the database with starter data using the following command:
+
+```bash
+cd ts-service
+npm run run-seed <seed-name>
+```
+Seeds are provided in the `src/seeds/` directory. To seed a specific seed, use the seed class as an argument. E.g., `npm run run-seed CandidateSummariesSeed`
 
 ## How to Run Tests
 
